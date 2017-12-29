@@ -1,0 +1,46 @@
+<script>
+  import wepy from 'wepy'
+  import 'wepy-async-function'
+
+  export default class extends wepy.app {
+    constructor() {
+      super()
+      this.use('requestfix')
+    }
+    config = {
+      pages: [
+        'tabs/index',
+        'tabs/about'
+      ],
+      window: {
+        backgroundTextStyle: 'dark',
+        navigationBarBackgroundColor: '#000',
+        navigationBarTitleText: 'V2EX',
+        navigationBarTextStyle: '#fff',
+        enablePullDownRefresh: true,
+        onReachBottomDistance: 0
+      },
+      tabBar: {
+        list: [
+          { text: '首页', pagePath: 'tabs/index' },
+          { text: '关于', pagePath: 'tabs/about' }
+        ]
+      }
+    }
+    globalData = {
+      userInfo: null
+    }
+    onLaunch() {}
+    getUserInfo(cb) {
+      if (this.globalData.userInfo) return cb(this.globalData.userInfo)
+      wepy.getUserInfo({
+        lang: 'zh_CN',
+        success: res => {
+          const { userInfo } = res
+          this.globalData.userInfo = userInfo
+          cb(userInfo)
+        }
+      })
+    }
+  }
+</script>
