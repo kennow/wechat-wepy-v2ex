@@ -6,6 +6,7 @@
     constructor() {
       super()
       this.use('requestfix')
+      this.use('promisify')
     }
     config = {
       pages: [
@@ -30,17 +31,18 @@
     globalData = {
       userInfo: null
     }
-    onLaunch() {}
-    getUserInfo(cb) {
-      if (this.globalData.userInfo) return cb(this.globalData.userInfo)
-      wepy.getUserInfo({
-        lang: 'zh_CN',
-        success: res => {
-          const { userInfo } = res
-          this.globalData.userInfo = userInfo
-          cb(userInfo)
-        }
-      })
+    onLaunch() {
+      this.getUserInfo()
+    }
+    async getUserInfo() {
+      if (this.globalData.userInfo) return this.globalData.userInfo
+      try {
+        const { userInfo } = await wepy.getUserInfo({ lang: 'zh_CN', method: 'get' })
+        this.globalData.userInfo = userInfo
+        return userInfo
+      } catch (err) {
+        // 弹出报错
+      }
     }
   }
 </script>
