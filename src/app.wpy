@@ -1,3 +1,7 @@
+<style lang="scss">
+  @import "assets/icomoon/style";
+</style>
+
 <script>
   import wepy from 'wepy'
   import 'wepy-async-function'
@@ -10,21 +14,38 @@
     }
     config = {
       pages: [
-        'tabs/index',
-        'tabs/about'
+        // tabs
+        'tabs/home',
+        'tabs/about',
+        // pages
+        'pages/topic'
       ],
       window: {
-        backgroundTextStyle: 'dark',
-        navigationBarBackgroundColor: '#000',
         navigationBarTitleText: 'V2EX',
         navigationBarTextStyle: '#fff',
+        navigationBarBackgroundColor: '#363636',
+        backgroundTextStyle: '#F8F8F8',
         enablePullDownRefresh: true,
         onReachBottomDistance: 0
       },
       tabBar: {
+        color: '#7a7e83',
+        selectedColor: '#363636',
+        borderStyle: 'black',
+        backgroundColor: '#fff',
         list: [
-          { text: '首页', pagePath: 'tabs/index' },
-          { text: '关于', pagePath: 'tabs/about' }
+          {
+            text: '主页',
+            pagePath: 'tabs/home',
+            iconPath: 'assets/image/home.png',
+            selectedIconPath: 'assets/image/home--active.png'
+          },
+          {
+            text: '关于',
+            pagePath: 'tabs/about',
+            iconPath: 'assets/image/intro.png',
+            selectedIconPath: 'assets/image/intro--active.png'
+          }
         ]
       }
     }
