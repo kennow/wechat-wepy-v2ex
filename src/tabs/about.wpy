@@ -1,6 +1,21 @@
+<style lang="scss">
+  .about {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #4a4a4a;
+    font-size: 14px;
+  }
+</style>
+
 <template>
-  <view>
-    <div></div>
+  <view class="about">
+    <view>如果该项目对您在小程序的探究中有所帮助，</view>
+    <view>欢迎您 star 该项目。</view>
+    <view>如果在使用过程中有任何疑问或意见，</view>
+    <view>您可以提出 issue 联系我。</view>
   </view>
 </template>
 
