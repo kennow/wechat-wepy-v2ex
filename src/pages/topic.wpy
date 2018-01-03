@@ -1,0 +1,77 @@
+<style lang="scss">
+  .topic {
+    &__gap {
+      color: #4a4a4a;
+      font-size: 14px;
+    }
+  }
+</style>
+
+<template>
+  <view class="topic">
+    <Panel :panelData.sync="topicData" isTopic="true"
+           @tapAvatar.user="tapAvatar" />
+
+    <view class="topic__gap">评论</view>
+
+    <repeat for="{{ commentsData }}" key="index">
+      <Comment :commentData.sync="item"
+               @tapAvatar.user="tapAvatar" />
+    </repeat>
+
+    <Bottom wx:if="{{ fetchDone }}" />
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  import { API, showErrorToast, showLoading, hideLoading, panelDataReset, commentDataReset } from '../utils'
+
+  import Panel from '../components/panel'
+  import Comment from '../components/comment'
+  import Bottom from '../components/bottom'
+
+  export default class extends wepy.page {
+    components = {
+      Panel,
+      Comment,
+      Bottom
+    }
+    data = {
+      fetchDone: false,
+      topicData: {},
+      commentsData: []
+    }
+    methods = {
+      tapAvatar: ({ username }) => {
+        wepy.navigateTo({ url: `/pages/member?username=${username}` })
+      }
+    }
+    onLoad({ id }) {
+      this.getTopicData(id)
+    }
+    async getTopicData(id) {
+      showLoading()
+      try {
+        const [{ data: topicData }, { data: commentsData }] = await Promise.all([
+          wepy.request({
+            url: `${API}/topics/show.json`,
+            data: { id }
+          }),
+          wepy.request({
+            url: `${API}/replies/show.json`,
+            data: { topic_id: id }
+          })
+        ])
+        this.topicData = panelDataReset(topicData[0])
+        this.commentsData = commentsData.map(item => commentDataReset(item))
+        this.fetchDone = true
+        this.$apply()
+      } catch (err) {
+        showErrorToast()
+      }
+      hideLoading()
+    }
+  }
+</script>
