@@ -18,7 +18,8 @@
         'tabs/home',
         'tabs/about',
         // pages
-        'pages/topic'
+        'pages/topic',
+        'pages/member'
       ],
       window: {
         navigationBarTitleText: 'V2EX',
