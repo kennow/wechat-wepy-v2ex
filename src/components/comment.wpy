@@ -1,0 +1,60 @@
+<style lang="scss">
+  .comment {
+    display: flex;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(219, 219, 219, 0.5);
+
+    &__avatar {
+      &-image {
+        width: 48px;
+        height: 48px;
+      }
+    }
+
+    &__content {
+      margin-left: 12px;
+
+      &-user {
+        color: #363636;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      &-detail {
+        color: #4a4a4a;
+        font-size: 12px;
+      }
+    }
+  }
+</style>
+
+<template>
+  <view class="comment">
+    <view class="comment__avatar">
+      <image class="comment__avatar-image" src="{{ commentData.avatarSrc }}"
+             @tap="tapAvatar" />
+    </view>
+
+    <view class="comment__content">
+      <view class="comment__content-user">{{ commentData.title }}</view>
+      <view class="comment__content-detail">{{ commentData.content }}</view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class extends wepy.component {
+    props = {
+      commentData: {
+        type: Object
+      }
+    }
+    methods = {
+      tapAvatar: () => {
+        this.$emit('tapAvatar', this.commentData)
+      }
+    }
+  }
+</script>
