@@ -1,0 +1,57 @@
+<style lang="scss">
+  .home {}
+</style>
+
+<template>
+  <view class="home">
+    <repeat for="{{ listData }}" item="item" key="index">
+      <Panel :panelData.sync="item"
+             @tapPanel.user="tapPanel" @tapAvatar.user="tapAvatar" />
+    </repeat>
+
+    <Bottom wx:if="{{ fetchDone }}" />
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  import { API, showErrorToast, showLoading, hideLoading, panelDataReset } from '../utils'
+
+  import Panel from '../components/panel'
+  import Bottom from '../components/bottom'
+
+  export default class extends wepy.page {
+    components = {
+      Panel,
+      Bottom
+    }
+    data = {
+      fetchDone: false,
+      listData: []
+    }
+    methods = {
+      tapPanel: ({ id }) => {
+        wepy.navigateTo({ url: `/pages/topic?id=${id}` })
+      },
+      tapAvatar: ({ username }) => {
+        wepy.navigateTo({ url: `/pages/member?username=${username}` })
+      }
+    }
+    onLoad() {
+      this.getListData()
+    }
+    async getListData() {
+      showLoading()
+      try {
+        const { data } = await wepy.request(`${API}/topics/latest.json`)
+        this.listData = data.map(item => panelDataReset(item))
+        this.fetchDone = true
+        this.$apply()
+      } catch (err) {
+        showErrorToast()
+      }
+      hideLoading()
+    }
+  }
+</script>
