@@ -1,0 +1,68 @@
+<style lang="scss">
+  .member {
+    &__gap {
+      color: #4a4a4a;
+      font-size: 14px;
+    }
+  }
+</style>
+
+<template>
+  <view class="member">
+    <Panel :panelData.sync="memberData" />
+
+    <view class="member__gap">相关主题</view>
+
+    <repeat for="{{ topicData }}" key="index">
+      <Panel :panelData.sync="item" />
+    </repeat>
+
+    <Bottom wx:if="{{ fetchDone }}" />
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  import { API, showErrorToast, showLoading, hideLoading, memberDataReset, panelDataReset } from '../utils'
+
+  import Panel from '../components/panel'
+  import Bottom from '../components/bottom'
+
+  export default class extends wepy.page {
+    components = {
+      Panel,
+      Bottom
+    }
+    data = {
+      fetchDone: false,
+      memberData: {},
+      topicData: []
+    }
+    onLoad({ username }) {
+      this.getMemberData(username)
+    }
+    async getMemberData(username) {
+      showLoading()
+      try {
+        const [{ data: memberData }, { data: topicData }] = await Promise.all([
+          wepy.request({
+            url: `${API}/members/show.json`,
+            data: { username }
+          }),
+          wepy.request({
+            url: `${API}/topics/show.json`,
+            data: { username }
+          })
+        ])
+        this.memberData = memberDataReset(memberData)
+        this.topicData = topicData.map(item => panelDataReset(item))
+        this.fetchDone = true
+        this.$apply()
+      } catch (err) {
+        showErrorToast()
+      }
+      hideLoading()
+    }
+  }
+</script>
