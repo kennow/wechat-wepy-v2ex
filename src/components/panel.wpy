@@ -1,0 +1,84 @@
+<style lang="scss">
+  .panel {
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+
+    &__header {
+      display: flex;
+
+      &__avatar {
+        &-image {
+          width: 48px;
+          height: 48px;
+        }
+      }
+
+      &__intro {
+        margin-left: 12px;
+
+        &-title {
+          color: #363636;
+          font-size: 14px;
+          font-weight: 600;
+        }
+
+        &-subTitle {
+          color: #4a4a4a;
+          font-size: 12px;
+        }
+      }
+    }
+
+    &__main {
+      margin-top: 8px;
+      color: #4a4a4a;
+      font-size: 12px;
+    }
+  }
+</style>
+
+<template>
+  <view class="panel" @tap="tapPanel">
+    <view class="panel__header">
+      <view class="panel__header__avatar">
+        <image class="panel__header__avatar-image" src="{{ panelData.avatarSrc }}"
+               @tap.stop="tapAvatar" />
+      </view>
+
+      <view class="panel__header__intro">
+        <view class="panel__header__intro-title">{{ panelData.title }}</view>
+        <view class="panel__header__intro-subTitle">{{ panelData.subTitle }}</view>
+      </view>
+    </view>
+
+    <view class="panel__main">
+      <block wx:if="{{ isTopic === 'true' }}"><text>{{ panelData.content }}</text></block>
+      <block wx:if="{{ isTopic === 'false' }}">{{ panelData.contentIntro }}</block>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class extends wepy.component {
+    props = {
+      panelData: {
+        type: Object
+      },
+      isTopic: {
+        type: String,
+        default: 'false'
+      }
+    }
+    methods = {
+      tapPanel: () => {
+        this.$emit('tapPanel', this.panelData)
+      },
+      tapAvatar: () => {
+        this.$emit('tapAvatar', this.panelData)
+      }
+    }
+  }
+</script>
