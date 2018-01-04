@@ -1,6 +1,7 @@
 <style lang="scss">
   .member {
     &__gap {
+      padding: 0 0 16px 16px;
       color: #4a4a4a;
       font-size: 14px;
     }
