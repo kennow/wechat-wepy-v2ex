@@ -78,7 +78,7 @@
       } catch (err) {}
     }
     onPullDownRefresh() {
-      this.getListData(this.id)
+      this.getTopicData(this.id)
     }
   }
 </script>
