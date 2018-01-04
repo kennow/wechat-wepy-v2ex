@@ -21,16 +21,12 @@ export const showLoading = () => {
   })
 }
 
-// 结束请求
-export const hideLoading = () => {
-  wepy.hideLoading()
-}
-
 // 获取到的图片地址为默认时，则替换为默认图片
 export const imageReset = url => {
   const key = '/static/img/node_large.png'
   const defaultImage = '../assets/image/default.jpg'
-  return url === key ? defaultImage : url
+  const prefix = 'https:'
+  return url === key ? defaultImage : `${prefix}${url}`
 }
 
 // 从全文获取内容简介
