@@ -39,6 +39,9 @@
   import Failure from '../components/failure'
 
   export default class extends wepy.page {
+    config = {
+      navigationBarTitleText: '主题'
+    }
     components = {
       Panel,
       Comment,
