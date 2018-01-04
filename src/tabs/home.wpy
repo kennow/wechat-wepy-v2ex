@@ -4,12 +4,16 @@
 
 <template>
   <view class="home">
-    <repeat for="{{ listData }}" item="item" key="index">
-      <Panel :panelData.sync="item"
-             @tapPanel.user="tapPanel" @tapAvatar.user="tapAvatar" />
-    </repeat>
+    <block wx:if="{{ fetchDone }}">
+      <repeat for="{{ listData }}" item="item" key="index">
+        <Panel :panelData.sync="item"
+               @tapPanel.user="tapPanel" @tapAvatar.user="tapAvatar" />
+      </repeat>
 
-    <Bottom wx:if="{{ fetchDone }}" />
+      <Bottom />
+    </block>
+
+    <Failure wx:if="{{ !fetchDone }}" />
   </view>
 </template>
 
@@ -20,11 +24,13 @@
 
   import Panel from '../components/panel'
   import Bottom from '../components/bottom'
+  import Failure from '../components/failure'
 
   export default class extends wepy.page {
     components = {
       Panel,
-      Bottom
+      Bottom,
+      Failure
     }
     data = {
       fetchDone: false,

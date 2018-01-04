@@ -9,17 +9,21 @@
 
 <template>
   <view class="topic">
-    <Panel :panelData.sync="topicData" isTopic="true"
-           @tapAvatar.user="tapAvatar" />
+    <block wx:if="{{ fetchDone }}">
+      <Panel :panelData.sync="topicData" isTopic="true"
+             @tapAvatar.user="tapAvatar" />
 
-    <view class="topic__gap">评论</view>
+      <view class="topic__gap">评论</view>
 
-    <repeat for="{{ commentsData }}" key="index">
-      <Comment :commentData.sync="item"
-               @tapAvatar.user="tapAvatar" />
-    </repeat>
+      <repeat for="{{ commentsData }}" key="index">
+        <Comment :commentData.sync="item"
+                 @tapAvatar.user="tapAvatar" />
+      </repeat>
 
-    <Bottom wx:if="{{ fetchDone }}" />
+      <Bottom />
+    </block>
+
+    <Failure wx:if="{{ !fetchDone }}" />
   </view>
 </template>
 
@@ -31,12 +35,14 @@
   import Panel from '../components/panel'
   import Comment from '../components/comment'
   import Bottom from '../components/bottom'
+  import Failure from '../components/failure'
 
   export default class extends wepy.page {
     components = {
       Panel,
       Comment,
-      Bottom
+      Bottom,
+      Failure
     }
     data = {
       fetchDone: false,
