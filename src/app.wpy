@@ -10,7 +10,7 @@
   import wepy from 'wepy'
   import 'wepy-async-function'
 
-  import { API, showLoading, showErrorToast } from './utils'
+  import { API, showLoading, closeLoading, closeRefresh, showErrorToast } from './utils'
 
   export default class extends wepy.app {
     constructor() {
@@ -19,23 +19,21 @@
       this.use('promisify')
       this.intercept('request', {
         config: request => {
-          if (this.globalData.loadingTotal === 0) showLoading()
-          this.globalData.loadingTotal++
+          showLoading.call(this)
+          // prefix url
           let result
           if (typeof request === 'string') result = `${API}${request}`
           if (request instanceof Object) result = Object.assign(request, { url: `${API}${request.url}` })
           return result
         },
         success: response => {
-          this.globalData.loadingTotal--
-          if (this.globalData.loadingTotal === 0) wepy.hideLoading()
-          wepy.stopPullDownRefresh()
+          closeLoading.call(this)
+          closeRefresh.call(this)
           return response
         },
         fail: response => {
-          this.globalData.loadingTotal--
-          if (this.globalData.loadingTotal === 0) wepy.hideLoading()
-          wepy.stopPullDownRefresh()
+          closeLoading.call(this)
+          closeRefresh.call(this)
           showErrorToast()
           return response
         }
@@ -81,7 +79,9 @@
     }
     globalData = {
       userInfo: null,
-      loadingTotal: 0
+      loadingTotal: 0,
+      loadingStatus: false,
+      refreshStatus: false
     }
     onLaunch() {
       this.getUserInfo()

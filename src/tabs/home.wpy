@@ -20,7 +20,7 @@
 <script>
   import wepy from 'wepy'
 
-  import { panelDataReset } from '../utils'
+  import { panelDataReset, showRefresh } from '../utils'
 
   import Panel from '../components/panel'
   import Bottom from '../components/bottom'
@@ -56,6 +56,7 @@
       } catch (err) {}
     }
     onPullDownRefresh() {
+      showRefresh.call(this)
       this.getListData()
     }
   }

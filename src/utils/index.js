@@ -13,12 +13,35 @@ export const showErrorToast = () => {
   })
 }
 
-// 发起请求
-export const showLoading = () => {
+// loading 开始
+export function showLoading() {
+  this.globalData.loadingTotal++
+  if (this.globalData.loadingStatus) return
+  this.globalData.loadingStatus = true
   wepy.showLoading({
     title: '请求数据中',
     mask: true
   })
+}
+
+// loading 结束
+export function closeLoading() {
+  if (this.globalData.loadingTotal === 0) return
+  this.globalData.loadingTotal--
+  this.globalData.loadingStatus = false
+  wepy.hideLoading()
+}
+
+// 下拉刷新开始
+export function showRefresh() {
+  this.$parent.globalData.refreshStatus = true
+}
+
+// 下拉刷新结束
+export function closeRefresh() {
+  if (!this.globalData.refreshStatus) return
+  this.globalData.refreshStatus = false
+  wepy.stopPullDownRefresh()
 }
 
 // 获取到的图片地址为默认时，则替换为默认图片

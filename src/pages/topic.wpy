@@ -31,7 +31,7 @@
 <script>
   import wepy from 'wepy'
 
-  import { panelDataReset, commentDataReset } from '../utils'
+  import { panelDataReset, commentDataReset, showRefresh } from '../utils'
 
   import Panel from '../components/panel'
   import Comment from '../components/comment'
@@ -78,6 +78,7 @@
       } catch (err) {}
     }
     onPullDownRefresh() {
+      showRefresh.call(this)
       this.getTopicData(this.id)
     }
   }
