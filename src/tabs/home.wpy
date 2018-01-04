@@ -16,7 +16,7 @@
 <script>
   import wepy from 'wepy'
 
-  import { API, showErrorToast, showLoading, hideLoading, panelDataReset } from '../utils'
+  import { API, showErrorToast, showLoading, panelDataReset } from '../utils'
 
   import Panel from '../components/panel'
   import Bottom from '../components/bottom'
@@ -51,7 +51,11 @@
       } catch (err) {
         showErrorToast()
       }
-      hideLoading()
+      wepy.stopPullDownRefresh()
+      wepy.hideLoading()
+    }
+    onPullDownRefresh() {
+      this.getListData()
     }
   }
 </script>

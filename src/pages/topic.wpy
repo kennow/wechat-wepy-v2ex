@@ -26,7 +26,7 @@
 <script>
   import wepy from 'wepy'
 
-  import { API, showErrorToast, showLoading, hideLoading, panelDataReset, commentDataReset } from '../utils'
+  import { API, showErrorToast, showLoading, panelDataReset, commentDataReset } from '../utils'
 
   import Panel from '../components/panel'
   import Comment from '../components/comment'
@@ -49,6 +49,7 @@
       }
     }
     onLoad({ id }) {
+      this.id = id
       this.getTopicData(id)
     }
     async getTopicData(id) {
@@ -71,7 +72,11 @@
       } catch (err) {
         showErrorToast()
       }
-      hideLoading()
+      wepy.stopPullDownRefresh()
+      wepy.hideLoading()
+    }
+    onPullDownRefresh() {
+      this.getListData(this.id)
     }
   }
 </script>

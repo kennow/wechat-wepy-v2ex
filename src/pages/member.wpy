@@ -24,7 +24,7 @@
 <script>
   import wepy from 'wepy'
 
-  import { API, showErrorToast, showLoading, hideLoading, memberDataReset, panelDataReset } from '../utils'
+  import { API, showErrorToast, showLoading, memberDataReset, panelDataReset } from '../utils'
 
   import Panel from '../components/panel'
   import Bottom from '../components/bottom'
@@ -40,6 +40,7 @@
       topicData: []
     }
     onLoad({ username }) {
+      this.username = username
       this.getMemberData(username)
     }
     async getMemberData(username) {
@@ -62,7 +63,11 @@
       } catch (err) {
         showErrorToast()
       }
-      hideLoading()
+      wepy.stopPullDownRefresh()
+      wepy.hideLoading()
+    }
+    onPullDownRefresh() {
+      this.getMemberData(this.username)
     }
   }
 </script>
