@@ -18,21 +18,24 @@
       this.use('requestfix')
       this.use('promisify')
       this.intercept('request', {
-        config(request) {
-          showLoading()
+        config: request => {
+          if (this.globalData.loadingTotal === 0) showLoading()
+          this.globalData.loadingTotal++
           let result
           if (typeof request === 'string') result = `${API}${request}`
           if (request instanceof Object) result = Object.assign(request, { url: `${API}${request.url}` })
           return result
         },
-        success(response) {
+        success: response => {
+          this.globalData.loadingTotal--
+          if (this.globalData.loadingTotal === 0) wepy.hideLoading()
           wepy.stopPullDownRefresh()
-          wepy.hideLoading()
           return response
         },
-        fail(response) {
+        fail: response => {
+          this.globalData.loadingTotal--
+          if (this.globalData.loadingTotal === 0) wepy.hideLoading()
           wepy.stopPullDownRefresh()
-          wepy.hideLoading()
           showErrorToast()
           return response
         }
@@ -77,7 +80,8 @@
       }
     }
     globalData = {
-      userInfo: null
+      userInfo: null,
+      loadingTotal: 0
     }
     onLaunch() {
       this.getUserInfo()
