@@ -1,16 +1,41 @@
 <style lang="scss">
   @import "assets/icomoon/style";
+
+  page {
+  }
 </style>
 
 <script>
   import wepy from 'wepy'
   import 'wepy-async-function'
 
+  import { API, showLoading, showErrorToast } from './utils'
+
   export default class extends wepy.app {
     constructor() {
       super()
       this.use('requestfix')
       this.use('promisify')
+      this.intercept('request', {
+        config(request) {
+          showLoading()
+          let result
+          if (typeof request === 'string') result = `${API}${request}`
+          if (request instanceof Object) result = Object.assign(request, { url: `${API}${request.url}` })
+          return result
+        },
+        success(response) {
+          wepy.stopPullDownRefresh()
+          wepy.hideLoading()
+          return response
+        },
+        fail(response) {
+          wepy.stopPullDownRefresh()
+          wepy.hideLoading()
+          showErrorToast()
+          return response
+        }
+      })
     }
     config = {
       pages: [
@@ -59,11 +84,11 @@
     async getUserInfo() {
       if (this.globalData.userInfo) return this.globalData.userInfo
       try {
-        const { userInfo } = await wepy.getUserInfo({ lang: 'zh_CN', method: 'get' })
+        const { userInfo } = await wepy.getUserInfo({ lang: 'zh_CN' })
         this.globalData.userInfo = userInfo
         return userInfo
       } catch (err) {
-        // 弹出报错
+        showErrorToast()
       }
     }
   }

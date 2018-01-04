@@ -26,7 +26,7 @@
 <script>
   import wepy from 'wepy'
 
-  import { API, showErrorToast, showLoading, panelDataReset, commentDataReset } from '../utils'
+  import { panelDataReset, commentDataReset } from '../utils'
 
   import Panel from '../components/panel'
   import Comment from '../components/comment'
@@ -45,7 +45,7 @@
     }
     methods = {
       tapAvatar: ({ username }) => {
-        wepy.navigateTo({ url: `/pages/member?username=${username}` })
+        this.$navigate('/pages/member', { username })
       }
     }
     onLoad({ id }) {
@@ -53,15 +53,14 @@
       this.getTopicData(id)
     }
     async getTopicData(id) {
-      showLoading()
       try {
         const [{ data: topicData }, { data: commentsData }] = await Promise.all([
           wepy.request({
-            url: `${API}/topics/show.json`,
+            url: 'topics/show.json',
             data: { id }
           }),
           wepy.request({
-            url: `${API}/replies/show.json`,
+            url: 'replies/show.json',
             data: { topic_id: id }
           })
         ])
@@ -69,11 +68,7 @@
         this.commentsData = commentsData.map(item => commentDataReset(item))
         this.fetchDone = true
         this.$apply()
-      } catch (err) {
-        showErrorToast()
-      }
-      wepy.stopPullDownRefresh()
-      wepy.hideLoading()
+      } catch (err) {}
     }
     onPullDownRefresh() {
       this.getListData(this.id)

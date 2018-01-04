@@ -24,7 +24,7 @@
 <script>
   import wepy from 'wepy'
 
-  import { API, showErrorToast, showLoading, memberDataReset, panelDataReset } from '../utils'
+  import { memberDataReset, panelDataReset } from '../utils'
 
   import Panel from '../components/panel'
   import Bottom from '../components/bottom'
@@ -44,15 +44,14 @@
       this.getMemberData(username)
     }
     async getMemberData(username) {
-      showLoading()
       try {
         const [{ data: memberData }, { data: topicData }] = await Promise.all([
           wepy.request({
-            url: `${API}/members/show.json`,
+            url: 'members/show.json',
             data: { username }
           }),
           wepy.request({
-            url: `${API}/topics/show.json`,
+            url: 'topics/show.json',
             data: { username }
           })
         ])
@@ -60,11 +59,7 @@
         this.topicData = topicData.map(item => panelDataReset(item))
         this.fetchDone = true
         this.$apply()
-      } catch (err) {
-        showErrorToast()
-      }
-      wepy.stopPullDownRefresh()
-      wepy.hideLoading()
+      } catch (err) {}
     }
     onPullDownRefresh() {
       this.getMemberData(this.username)

@@ -1,12 +1,12 @@
 import wepy from 'wepy'
 
 // V2EX API
-export const API = 'https://www.v2ex.com/api'
+export const API = 'https://www.v2ex.com/api/'
 
 // 错误提示
 export const showErrorToast = () => {
   wepy.showToast({
-    title: '请求失败，请检查网络',
+    title: '请求失败',
     icon: 'loading',
     duration: 2000,
     mask: true
@@ -60,6 +60,5 @@ export const memberDataReset = item => {
 export const commentDataReset = item => {
   item.avatarSrc = imageReset(item.member.avatar_large)
   item.title = item.member.username
-  item.subTitle = `@${item.id}`
   return item
 }

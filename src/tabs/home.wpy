@@ -16,7 +16,7 @@
 <script>
   import wepy from 'wepy'
 
-  import { API, showErrorToast, showLoading, panelDataReset } from '../utils'
+  import { panelDataReset } from '../utils'
 
   import Panel from '../components/panel'
   import Bottom from '../components/bottom'
@@ -32,27 +32,22 @@
     }
     methods = {
       tapPanel: ({ id }) => {
-        wepy.navigateTo({ url: `/pages/topic?id=${id}` })
+        this.$navigate('/pages/topic', { id })
       },
       tapAvatar: ({ username }) => {
-        wepy.navigateTo({ url: `/pages/member?username=${username}` })
+        this.$navigate('/pages/member', { username })
       }
     }
     onLoad() {
       this.getListData()
     }
     async getListData() {
-      showLoading()
       try {
-        const { data } = await wepy.request(`${API}/topics/latest.json`)
+        const { data } = await wepy.request('topics/latest.json')
         this.listData = data.map(item => panelDataReset(item))
         this.fetchDone = true
         this.$apply()
-      } catch (err) {
-        showErrorToast()
-      }
-      wepy.stopPullDownRefresh()
-      wepy.hideLoading()
+      } catch (err) {}
     }
     onPullDownRefresh() {
       this.getListData()
