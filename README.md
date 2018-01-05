@@ -40,7 +40,7 @@ wepy build
 
 ## 项目截图
 
-<img src="https://github.com/Zoux/react-native-v2ex/blob/master/screenshots/home.png" width="375" height="auto"/> <img src="https://github.com/Zoux/react-native-v2ex/blob/master/screenshots/topic.png" width="375" height="auto"/>
+<img src="https://github.com/Zoux/wechat-wepy-v2ex/blob/master/screenshots/home.png" width="375" height="auto"/> <img src="https://github.com/Zoux/wechat-wepy-v2ex/blob/master/screenshots/topic.png" width="375" height="auto"/>
 
 ## 项目架构
 
