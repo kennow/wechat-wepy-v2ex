@@ -14,7 +14,7 @@ export const showErrorToast = () => {
 }
 
 // loading 开始
-export function showLoading() {
+export function showLoading () {
   this.globalData.loadingTotal++
   if (this.globalData.loadingStatus) return
   this.globalData.loadingStatus = true
@@ -25,7 +25,7 @@ export function showLoading() {
 }
 
 // loading 结束
-export function closeLoading() {
+export function closeLoading () {
   if (this.globalData.loadingTotal === 0) return
   this.globalData.loadingTotal--
   this.globalData.loadingStatus = false
@@ -33,12 +33,12 @@ export function closeLoading() {
 }
 
 // 下拉刷新开始
-export function showRefresh() {
+export function showRefresh () {
   this.$parent.globalData.refreshStatus = true
 }
 
 // 下拉刷新结束
-export function closeRefresh() {
+export function closeRefresh () {
   if (!this.globalData.refreshStatus) return
   this.globalData.refreshStatus = false
   wepy.stopPullDownRefresh()

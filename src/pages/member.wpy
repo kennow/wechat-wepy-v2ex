@@ -71,7 +71,7 @@
         this.$apply()
       } catch (err) {}
     }
-    onPullDownRefresh() {
+    onPullDownRefresh () {
       showRefresh.call(this)
       this.getMemberData(this.username)
     }

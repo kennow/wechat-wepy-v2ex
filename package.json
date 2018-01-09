@@ -1,5 +1,5 @@
 {
-  "name": "wechat-v2ex",
+  "name": "wechat-wepy-v2ex",
   "version": "1.0.0",
   "scripts": {
     "dev": "wepy build --watch",

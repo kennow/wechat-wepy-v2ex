@@ -44,10 +44,10 @@
         this.$navigate('/pages/member', { username })
       }
     }
-    onLoad() {
+    onLoad () {
       this.getListData()
     }
-    async getListData() {
+    async getListData () {
       try {
         const { data } = await wepy.request('topics/latest.json')
         this.listData = data.map(item => panelDataReset(item))
@@ -55,7 +55,7 @@
         this.$apply()
       } catch (err) {}
     }
-    onPullDownRefresh() {
+    onPullDownRefresh () {
       showRefresh.call(this)
       this.getListData()
     }

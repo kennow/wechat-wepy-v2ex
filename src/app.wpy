@@ -13,7 +13,7 @@
   import { API, showLoading, closeLoading, closeRefresh, showErrorToast } from './utils'
 
   export default class extends wepy.app {
-    constructor() {
+    constructor () {
       super()
       this.use('requestfix')
       this.use('promisify')
@@ -83,10 +83,10 @@
       loadingStatus: false,
       refreshStatus: false
     }
-    onLaunch() {
+    onLaunch () {
       this.getUserInfo()
     }
-    async getUserInfo() {
+    async getUserInfo () {
       if (this.globalData.userInfo) return this.globalData.userInfo
       try {
         const { userInfo } = await wepy.getUserInfo({ lang: 'zh_CN' })
