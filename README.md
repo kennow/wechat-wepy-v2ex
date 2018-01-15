@@ -8,7 +8,7 @@ V2EX 的克隆项目，基于 wepy 开发的小程序。
 
 如有问题请直接在 Issues 中提出，或者您发现问题并有非常好的解决方案，欢迎 PR 👍
 
-相关项目：[react-native-v2ex](https://github.com/Zoux/react-native-v2ex)
+相关项目：[react-native-v2ex](https://github.com/zoux/react-native-v2ex)
 
 接口地址：[v2ex-api](https://github.com/djyde/V2EX-API)
 
@@ -19,7 +19,7 @@ V2EX 的克隆项目，基于 wepy 开发的小程序。
 ## 项目启动
 
 ```
-git clone https://github.com/Zoux/wechat-wepy-v2ex
+git clone https://github.com/zoux/wechat-wepy-v2ex
 
 cd wechat-wepy-v2ex
 
@@ -40,7 +40,7 @@ wepy build
 
 ## 项目截图
 
-<img src="https://github.com/Zoux/wechat-wepy-v2ex/blob/master/screenshots/home.png" width="375" height="auto"/> <img src="https://github.com/Zoux/wechat-wepy-v2ex/blob/master/screenshots/topic.png" width="375" height="auto"/>
+<img src="https://github.com/zoux/wechat-wepy-v2ex/blob/master/screenshots/home.png" width="375" height="auto"/> <img src="https://github.com/zoux/wechat-wepy-v2ex/blob/master/screenshots/topic.png" width="375" height="auto"/>
 
 ## 项目架构
 
